@@ -1,14 +1,14 @@
 package pt.ipbeja.pdm2.piecharttutorial;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -33,20 +33,25 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Starting to create chart");
 
         pieChart = (PieChart) findViewById(R.id.idPieChart);
-//        Description description = null;
-//        description.setText("Sales by employee (In Thousands $) ");
-//        pieChart.setDescription(description);
-        pieChart.setRotationEnabled(true);
-        //pieChart.setUsePercentValues(true);
-        //pieChart.setHoleColor(Color.BLUE);
-        //pieChart.setCenterTextColor(Color.BLACK);
-        pieChart.setHoleRadius(25f);
+        pieChart.getDescription().setText("");
+        pieChart.setBackgroundColor(Color.TRANSPARENT);
+        pieChart.setRotationEnabled(false);
+        pieChart.setRotationAngle(180f);
+        pieChart.setUsePercentValues(true);
+        pieChart.setHoleRadius(58f);
+        pieChart.setTransparentCircleRadius(61f);
+        pieChart.setTransparentCircleColor(0);
+        pieChart.setHoleColor(0);
         pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Super Cool Chart");
+        pieChart.setMaxAngle(180f);
+        //pieChart.setCenterTextOffset(0, -40);
+        pieChart.setCenterText("Chart");
         pieChart.setCenterTextSize(10);
-        //pieChart.setDrawEntryLabels(true);
-        //pieChart.setEntryLabelTextSize(20);
-        //More options just check out the documentation!
+        pieChart.getLegend().setEnabled(false);
+        pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pieChart.setElevation(15f);
+        }
 
         addDataSet();
 
@@ -110,11 +115,6 @@ public class MainActivity extends AppCompatActivity {
         colors.add(Color.MAGENTA);
 
         pieDataSet.setColors(colors);
-
-        //add legend to chart
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
 
         //create pie data object
         PieData pieData = new PieData(pieDataSet);
